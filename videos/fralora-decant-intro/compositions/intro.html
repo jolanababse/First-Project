@@ -134,33 +134,12 @@
       }
 
       /* punch */
-      .stack {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-      }
-      .stack-word {
-        display: block;
+      #punch-title {
         font-family: var(--serif);
         font-weight: 500;
-        font-size: 190px;
-        line-height: 1.08;
+        font-size: 150px;
+        line-height: 1.15;
       }
-      .stack-dot {
-        display: block;
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        background: var(--gold);
-      }
-      #punch-sub {
-        margin-top: 40px;
-        font-weight: 300;
-        font-size: 60px;
-        color: var(--ivory-dim);
-      }
-
       /* resolve */
       #logo-emblem {
         display: block;
@@ -190,12 +169,6 @@
         height: 3px;
         background: linear-gradient(90deg, rgba(212, 175, 114, 0), var(--gold) 20%, var(--gold) 80%, rgba(212, 175, 114, 0));
         transform-origin: 50% 50%;
-      }
-      #resolve-tag {
-        font-weight: 300;
-        font-size: 56px;
-        color: var(--gold);
-        letter-spacing: 0.04em;
       }
       #resolve-url {
         direction: ltr;
@@ -253,14 +226,13 @@
 
         <!-- 3 · Punch -->
         <section class="scene" id="punch">
-          <div class="stack">
-            <span class="stack-word" id="pw-1">נישה</span>
-            <span class="stack-dot" id="pd-1"></span>
-            <span class="stack-word" id="pw-2">מעצבים</span>
-            <span class="stack-dot" id="pd-2"></span>
-            <span class="stack-word gold" id="pw-3">דיופים</span>
+          <div class="line" id="punch-title">
+            <span class="word">גלו</span>
+            <span class="word">את</span>
+            <span class="word gold">הריח</span>
+            <span class="word">הבא</span>
+            <span class="word">שלכם</span>
           </div>
-          <div id="punch-sub">גלו את הריח הבא שלכם</div>
         </section>
 
         <!-- 4 · Resolve -->
@@ -268,7 +240,6 @@
           <img id="logo-emblem" src="assets/brand/emblem-white.png" alt="" />
           <div id="logo-wordmark-wrap"><img id="logo-wordmark" src="assets/brand/wordmark-white.png" alt="FRALORA PARIS" /></div>
           <div class="rule" id="rule"></div>
-          <div id="resolve-tag">בשמים · דיקנטים</div>
           <div id="resolve-url">fralora.co.il</div>
         </section>
       </div>
@@ -323,18 +294,13 @@
 
       // 3 · Punch (5.9 – 8.1)
       tl.set("#punch", { opacity: 1 }, 5.9);
-      ["#pw-1", "#pw-2", "#pw-3"].forEach((sel, i) => {
-        tl.fromTo(
-          sel,
-          { opacity: 0, scale: 1.6, filter: "blur(10px)" },
-          { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.38, ease: "power4.out" },
-          5.95 + i * 0.42
-        );
-      });
-      ["#pd-1", "#pd-2"].forEach((sel, i) => {
-        tl.fromTo(sel, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(3)" }, 6.2 + i * 0.42);
-      });
-      tl.fromTo("#punch-sub", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 7.1);
+      tl.fromTo(
+        "#punch-title .word",
+        { opacity: 0, y: 60, filter: "blur(14px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power3.out", stagger: 0.16 },
+        5.95
+      );
+      tl.fromTo("#punch-title .gold", { scale: 1 }, { scale: 1.08, duration: 0.3, ease: "power2.out", yoyo: true, repeat: 1 }, 7.0);
       tl.to("#punch", { opacity: 0, duration: 0.35, ease: "power1.in" }, 7.8);
 
       // 4 · Resolve (8.1 – 10)
@@ -352,8 +318,7 @@
         8.4
       );
       tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.inOut" }, 8.75);
-      tl.fromTo("#resolve-tag", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 8.95);
-      tl.fromTo("#resolve-url", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 9.1);
+      tl.fromTo("#resolve-url", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 8.95);
 
       window.__timelines["intro"] = tl;
                 </script>
