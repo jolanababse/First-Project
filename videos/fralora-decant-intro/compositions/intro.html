@@ -119,12 +119,12 @@
       }
       .chips {
         display: flex;
-        gap: 36px;
+        gap: 28px;
         direction: rtl;
       }
       .chip {
         display: block;
-        padding: 18px 46px;
+        padding: 16px 38px;
         border: 2px solid var(--gold);
         border-radius: 999px;
         font-weight: 400;
@@ -162,19 +162,28 @@
       }
 
       /* resolve */
-      #wordmark {
-        direction: ltr;
-        display: flex;
-        justify-content: center;
-        font-family: var(--serif);
-        font-weight: 300;
-        font-size: 150px;
-        line-height: 1;
-        color: var(--ivory);
+      #logo-emblem {
+        display: block;
+        width: 230px;
+        height: auto;
       }
-      .wm-letter {
-        display: inline-block;
-        padding: 0 0.09em;
+      #logo-wordmark-wrap {
+        display: block;
+        width: 760px;
+      }
+      #logo-wordmark {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .vial-emblem {
+        position: absolute;
+        left: 50%;
+        top: 250px;
+        width: 72px;
+        height: auto;
+        margin-left: -36px;
+        opacity: 0.85;
       }
       .rule {
         width: 560px;
@@ -224,17 +233,19 @@
           <div class="line" id="build-title">
             <span class="word">נסו</span>
             <span class="word">קודם</span>
-            <span class="word gold">בדקאנט</span>
+            <span class="word gold">בדיקנט</span>
           </div>
           <div class="vial-wrap" id="vial">
             <div class="vial-cap"></div>
             <div class="vial-neck"></div>
             <div class="vial-body">
               <div class="liquid" id="liquid"></div>
+              <img class="vial-emblem" id="vial-emblem" src="assets/brand/emblem-white-small.png" alt="" />
               <div class="shine" id="shine" data-layout-allow-overflow="true"></div>
             </div>
           </div>
           <div class="chips">
+            <span class="chip" id="chip-2">2 מ״ל</span>
             <span class="chip" id="chip-5">5 מ״ל</span>
             <span class="chip" id="chip-10">10 מ״ל</span>
           </div>
@@ -254,11 +265,10 @@
 
         <!-- 4 · Resolve -->
         <section class="scene" id="resolve">
-          <div id="wordmark">
-            <span class="wm-letter">F</span><span class="wm-letter">R</span><span class="wm-letter">A</span><span class="wm-letter">L</span><span class="wm-letter">O</span><span class="wm-letter">R</span><span class="wm-letter">A</span>
-          </div>
+          <img id="logo-emblem" src="assets/brand/emblem-white.png" alt="" />
+          <div id="logo-wordmark-wrap"><img id="logo-wordmark" src="assets/brand/wordmark-white.png" alt="FRALORA PARIS" /></div>
           <div class="rule" id="rule"></div>
-          <div id="resolve-tag">בשמים · דקאנטים</div>
+          <div id="resolve-tag">בשמים · דיקנטים</div>
           <div id="resolve-url">fralora.co.il</div>
         </section>
       </div>
@@ -306,8 +316,9 @@
       tl.fromTo("#vial", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 2.9);
       tl.fromTo("#liquid", { scaleY: 0 }, { scaleY: 0.8, duration: 1.4, ease: "power2.inOut" }, 3.2);
       tl.fromTo("#shine", { x: -90 }, { x: 220, duration: 0.8, ease: "power1.inOut" }, 4.5);
-      tl.fromTo("#chip-5", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.2)" }, 4.35);
-      tl.fromTo("#chip-10", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.2)" }, 4.55);
+      ["#chip-2", "#chip-5", "#chip-10"].forEach((sel, i) => {
+        tl.fromTo(sel, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.2)" }, 4.3 + i * 0.15);
+      });
       tl.to("#build", { opacity: 0, scale: 0.96, duration: 0.4, ease: "power2.in" }, 5.55);
 
       // 3 · Punch (5.9 – 8.1)
@@ -329,14 +340,20 @@
       // 4 · Resolve (8.1 – 10)
       tl.set("#resolve", { opacity: 1 }, 8.1);
       tl.fromTo(
-        ".wm-letter",
-        { opacity: 0, x: (i) => (i - 3) * 46, filter: "blur(8px)" },
-        { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.8, ease: "expo.out", stagger: { each: 0.04, from: "center" } },
+        "#logo-emblem",
+        { opacity: 0, scale: 0.7, y: 30, filter: "blur(10px)" },
+        { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "expo.out" },
         8.15
       );
-      tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.inOut" }, 8.5);
-      tl.fromTo("#resolve-tag", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 8.75);
-      tl.fromTo("#resolve-url", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 8.95);
+      tl.fromTo(
+        "#logo-wordmark",
+        { opacity: 0, clipPath: "inset(0% 50% 0% 50%)" },
+        { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 0.8, ease: "power3.inOut" },
+        8.4
+      );
+      tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.inOut" }, 8.75);
+      tl.fromTo("#resolve-tag", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 8.95);
+      tl.fromTo("#resolve-url", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 9.1);
 
       window.__timelines["intro"] = tl;
                 </script>

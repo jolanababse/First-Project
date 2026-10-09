@@ -20,6 +20,7 @@ Angle chosen by the user: **Discover by decant**.
 
 ## Notes
 - fralora.co.il was unreachable from the build sandbox (proxy 403), so nothing was captured.
-  Brand facts come from public search results; the logo is replaced with a typographic
-  "FRALORA" wordmark. Swap in the real logo and brand colors when available.
-- Inferred design: plum / ivory / champagne-gold luxury palette; Frank Ruhl Libre + Heebo (OFL).
+- Brand assets supplied by the user: white FRALORA PARIS logo + emblem (assets/brand/),
+  main brand color #4C1526 (background base).
+- Copy revisions from the user: "נסו קודם בדיקנט", sizes 2 / 5 / 10 מ״ל.
+- Fonts: Frank Ruhl Libre + Heebo (OFL), vendored locally.

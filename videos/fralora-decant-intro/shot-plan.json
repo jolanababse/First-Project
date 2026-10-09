@@ -4,8 +4,8 @@
   "canvas": { "width": 1080, "height": 1920, "duration": 10 },
   "scenes": [
     { "id": "hook",    "t": [0.0, 2.7],  "tag": "Hook",    "copy": ["בושם נישה?", "בלי להתחייב לבקבוק מלא"], "emphasis": ["נישה"], "motion": "word_reveal blur-up" },
-    { "id": "build",   "t": [2.7, 5.9],  "tag": "Build",   "copy": ["נסו קודם בדקאנט", "5 מ״ל", "10 מ״ל"], "emphasis": ["דקאנט"], "motion": "vial fill + chip pop" },
+    { "id": "build",   "t": [2.7, 5.9],  "tag": "Build",   "copy": ["נסו קודם בדיקנט", "2 מ״ל", "5 מ״ל", "10 מ״ל"], "emphasis": ["דקאנט"], "motion": "vial fill + chip pop" },
     { "id": "punch",   "t": [5.9, 8.1],  "tag": "Punch",   "copy": ["נישה", "מעצבים", "דיופים", "גלו את הריח הבא שלכם"], "motion": "slam stack" },
-    { "id": "resolve", "t": [8.1, 10.0], "tag": "Resolve", "copy": ["FRALORA", "בשמים · דקאנטים", "fralora.co.il"], "motion": "tracking-in wordmark + rule draw" }
+    { "id": "resolve", "t": [8.1, 10.0], "tag": "Resolve", "copy": ["FRALORA PARIS logo", "בשמים · דיקנטים", "fralora.co.il"], "motion": "tracking-in wordmark + rule draw" }
   ]
 }
