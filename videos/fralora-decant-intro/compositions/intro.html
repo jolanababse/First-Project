@@ -62,44 +62,57 @@
         color: var(--ivory-dim);
       }
 
-      /* build: decant bottle */
+      /* build: decant lineup */
       #build-title {
         font-family: var(--serif);
         font-weight: 500;
         font-size: 112px;
         line-height: 1.1;
       }
-      .bottle-stage {
+      .lineup {
+        position: relative;
+        display: flex;
+        direction: rtl;
+        align-items: flex-end;
+        justify-content: center;
+        width: 840px;
+      }
+      .lineup-glow {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        width: 800px;
+        height: 760px;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(212, 175, 114, 0.34), rgba(212, 175, 114, 0.1) 55%, rgba(212, 175, 114, 0));
+      }
+      .product {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 280px;
+      }
+      .product-stage {
         position: relative;
         display: flex;
         justify-content: center;
         align-items: flex-end;
-        width: 520px;
-        height: 860px;
-      }
-      .bottle-glow {
-        position: absolute;
-        left: 0;
-        top: 60px;
-        width: 520px;
-        height: 720px;
-        border-radius: 50%;
-        background: radial-gradient(closest-side, rgba(212, 175, 114, 0.38), rgba(212, 175, 114, 0.12) 55%, rgba(212, 175, 114, 0));
+        width: 280px;
+        height: 800px;
       }
       .bottle-shadow {
         position: absolute;
-        left: 110px;
+        left: 50px;
         bottom: 0;
-        width: 300px;
-        height: 40px;
+        width: 180px;
+        height: 30px;
         border-radius: 50%;
         background: radial-gradient(closest-side, rgba(10, 2, 5, 0.75), rgba(10, 2, 5, 0));
       }
       .bottle {
         position: relative;
-        width: 172px;
-        height: 821px;
-        margin-bottom: 18px;
+        margin-bottom: 14px;
         transform-origin: 50% 100%;
       }
       .bottle-float {
@@ -116,23 +129,40 @@
         position: absolute;
         inset: 0;
         overflow: hidden;
-        -webkit-mask-image: url("assets/brand/decant-10ml.png");
-        mask-image: url("assets/brand/decant-10ml.png");
         -webkit-mask-size: 100% 100%;
         mask-size: 100% 100%;
+      }
+      #p2-sheen-mask {
+        -webkit-mask-image: url("assets/brand/decant-2ml.png");
+        mask-image: url("assets/brand/decant-2ml.png");
+      }
+      #p2-bottle {
+        width: 113px;
+        height: 540px;
+      }
+      #p5-sheen-mask {
+        -webkit-mask-image: url("assets/brand/decant-5ml.png");
+        mask-image: url("assets/brand/decant-5ml.png");
+      }
+      #p5-bottle {
+        width: 137px;
+        height: 650px;
+      }
+      #p10-sheen-mask {
+        -webkit-mask-image: url("assets/brand/decant-10ml.png");
+        mask-image: url("assets/brand/decant-10ml.png");
+      }
+      #p10-bottle {
+        width: 159px;
+        height: 760px;
       }
       .sheen-band {
         position: absolute;
         top: -5%;
         left: 0;
-        width: 90px;
+        width: 80px;
         height: 110%;
         background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
-      }
-      .chips {
-        display: flex;
-        gap: 28px;
-        direction: rtl;
       }
       .chip {
         display: block;
@@ -143,6 +173,7 @@
         font-size: 54px;
         line-height: 1.2;
         color: var(--gold);
+        margin-top: 34px;
       }
 
       /* punch */
@@ -211,22 +242,50 @@
             <span class="word">קודם</span>
             <span class="word gold">בדיקנט</span>
           </div>
-          <div class="bottle-stage" id="bottle-stage">
-            <div class="bottle-glow" id="bottle-glow"></div>
-            <div class="bottle-shadow" id="bottle-shadow"></div>
-            <div class="bottle" id="bottle">
-              <div class="bottle-float" id="bottle-float">
-                <img class="bottle-img" src="assets/brand/decant-10ml.png" alt="FRALORA 10 ml decant" />
-                <div class="bottle-sheen" data-layout-allow-overflow="true">
-                  <div class="sheen-band" id="sheen"></div>
+          <div class="lineup" id="lineup">
+            <div class="lineup-glow" id="lineup-glow"></div>
+            <div class="product">
+              <div class="product-stage">
+                <div class="bottle-shadow" id="p2-shadow"></div>
+                <div class="bottle" id="p2-bottle">
+                  <div class="bottle-float" id="p2-float">
+                    <img class="bottle-img" src="assets/brand/decant-2ml.png" alt="FRALORA 2 ml decant" />
+                    <div class="bottle-sheen" id="p2-sheen-mask" data-layout-allow-overflow="true">
+                      <div class="sheen-band" id="p2-sheen"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <span class="chip" id="chip-2">2 מ״ל</span>
             </div>
-          </div>
-          <div class="chips">
-            <span class="chip" id="chip-2">2 מ״ל</span>
-            <span class="chip" id="chip-5">5 מ״ל</span>
-            <span class="chip" id="chip-10">10 מ״ל</span>
+            <div class="product">
+              <div class="product-stage">
+                <div class="bottle-shadow" id="p5-shadow"></div>
+                <div class="bottle" id="p5-bottle">
+                  <div class="bottle-float" id="p5-float">
+                    <img class="bottle-img" src="assets/brand/decant-5ml.png" alt="FRALORA 5 ml decant" />
+                    <div class="bottle-sheen" id="p5-sheen-mask" data-layout-allow-overflow="true">
+                      <div class="sheen-band" id="p5-sheen"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class="chip" id="chip-5">5 מ״ל</span>
+            </div>
+            <div class="product">
+              <div class="product-stage">
+                <div class="bottle-shadow" id="p10-shadow"></div>
+                <div class="bottle" id="p10-bottle">
+                  <div class="bottle-float" id="p10-float">
+                    <img class="bottle-img" src="assets/brand/decant-10ml.png" alt="FRALORA 10 ml decant" />
+                    <div class="bottle-sheen" id="p10-sheen-mask" data-layout-allow-overflow="true">
+                      <div class="sheen-band" id="p10-sheen"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class="chip" id="chip-10">10 מ״ל</span>
+            </div>
           </div>
         </section>
 
@@ -290,21 +349,28 @@
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.out", stagger: 0.14 },
         2.75
       );
-      tl.fromTo("#bottle-glow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1.0, ease: "power2.out" }, 2.85);
-      tl.fromTo(
-        "#bottle",
-        { opacity: 0, y: 260, rotation: -9 },
-        { opacity: 1, y: 0, rotation: 0, duration: 1.0, ease: "power3.out" },
-        2.9
-      );
-      tl.fromTo("#bottle-shadow", { opacity: 0, scaleX: 0.4 }, { opacity: 1, scaleX: 1, duration: 1.0, ease: "power3.out" }, 2.9);
-      // gentle hover once it lands
-      tl.fromTo("#bottle-float", { y: 0, rotation: 0 }, { y: -18, rotation: 1.5, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, 3.9);
-      tl.fromTo("#bottle-shadow", { scaleX: 1 }, { scaleX: 0.86, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 3.9);
-      // light sweep across the glass
-      tl.fromTo("#sheen", { x: -120 }, { x: 220, duration: 0.9, ease: "power2.inOut" }, 3.75);
-      ["#chip-2", "#chip-5", "#chip-10"].forEach((sel, i) => {
-        tl.fromTo(sel, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.2)" }, 4.3 + i * 0.15);
+      tl.fromTo("#lineup-glow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1.0, ease: "power2.out" }, 2.85);
+      ["2", "5", "10"].forEach((k, i) => {
+        const t = 2.9 + i * 0.2;
+        tl.fromTo(
+          `#p${k}-bottle`,
+          { opacity: 0, y: 260, rotation: -8 },
+          { opacity: 1, y: 0, rotation: 0, duration: 0.95, ease: "power3.out" },
+          t
+        );
+        tl.fromTo(`#p${k}-shadow`, { opacity: 0, scaleX: 0.4 }, { opacity: 1, scaleX: 1, duration: 0.95, ease: "power3.out" }, t);
+        tl.fromTo(`#chip-${k}`, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.2)" }, t + 0.65);
+        // light sweep across the glass
+        tl.fromTo(`#p${k}-sheen`, { x: -110 }, { x: 200, duration: 0.8, ease: "power2.inOut" }, 3.9 + i * 0.15);
+        // gentle hover, phase-offset per bottle
+        const tilt = i % 2 ? -1.2 : 1.2;
+        tl.fromTo(`#p${k}-float`, { y: 0, rotation: 0 }, { y: -14, rotation: tilt, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 4.0 + i * 0.15);
+        tl.fromTo(
+          `#p${k}-shadow`,
+          { scaleX: 1 },
+          { scaleX: 0.86, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false },
+          4.0 + i * 0.15
+        );
       });
       tl.to("#build", { opacity: 0, scale: 0.96, duration: 0.4, ease: "power2.in" }, 5.55);
 

@@ -23,5 +23,5 @@ Angle chosen by the user: **Discover by decant**.
 - Brand assets supplied by the user: white FRALORA PARIS logo + emblem (assets/brand/),
   main brand color #4C1526 (background base).
 - Copy revisions from the user: "נסו קודם בדיקנט", sizes 2 / 5 / 10 מ״ל.
-- Product photo: user-supplied FRALORA 10 ml decant (assets/brand/decant-10ml.png, black bg keyed out).
+- Product photos: user-supplied FRALORA 2 / 5 / 10 ml decants (assets/brand/decant-*.png, black bg keyed out).
 - Fonts: Frank Ruhl Libre + Heebo (OFL), vendored locally.
