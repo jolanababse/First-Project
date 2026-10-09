@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Italiana";
+        src: url("assets/fonts/Italiana-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Instrument Sans";
+        src: url("assets/fonts/InstrumentSans-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      :root {
+        --ink: #0e0b08;
+        --gold: #d9b56f;
+        --gold-deep: #8a6428;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--ink);
+        font-family: "Instrument Sans", sans-serif;
+      }
+
+      /* ---------- shared scene frame ---------- */
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .wipe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .kicker {
+        position: absolute;
+        top: 200px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 22px;
+        font-size: 26px;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+      }
+
+      /* ---------- intro ---------- */
+      #intro .bg {
+        background: radial-gradient(circle at 50% 46%, #2a1f14 0%, #120d09 55%, #080605 100%);
+      }
+      .intro-stack {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 34px;
+      }
+      .wordmark {
+        display: block;
+        font-family: "Italiana", serif;
+        font-size: 150px;
+        letter-spacing: 0.16em;
+        padding-left: 0.16em;
+        color: var(--gold);
+        line-height: 1;
+      }
+      .ch {
+        display: inline-block;
+      }
+      .rule {
+        display: block;
+        width: 420px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      }
+      .intro-sub {
+        display: block;
+        font-size: 30px;
+        letter-spacing: 0.5em;
+        padding-left: 0.5em;
+        color: #e9dcc3;
+        text-transform: uppercase;
+      }
+
+      /* ---------- product scenes ---------- */
+      .stage {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 300px;
+        height: 940px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+      }
+      .shadow {
+        position: absolute;
+        left: 50%;
+        bottom: -26px;
+        width: 620px;
+        height: 70px;
+        margin-left: -310px;
+        border-radius: 50%;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 70%);
+      }
+      .bottle {
+        position: relative;
+        height: 900px;
+        transform-origin: 50% 100%;
+      }
+      .bottle img {
+        display: block;
+        height: 100%;
+        width: auto;
+      }
+      /* light sweep, masked to the bottle silhouette */
+      .shine {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        mix-blend-mode: screen;
+      }
+      .shine-bar {
+        position: absolute;
+        top: -20%;
+        left: 0;
+        width: 46%;
+        height: 140%;
+        background: linear-gradient(
+          100deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 248, 230, 0.55) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        transform: rotate(14deg);
+      }
+      .ghost {
+        position: absolute;
+        top: 360px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: "Italiana", serif;
+        font-size: 280px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+      }
+      .caption {
+        position: absolute;
+        left: 60px;
+        right: 60px;
+        top: 1300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+      }
+      .mask {
+        display: block;
+        overflow: hidden;
+        padding: 6px 0;
+      }
+      .name {
+        display: block;
+        font-family: "Italiana", serif;
+        font-size: 104px;
+        line-height: 1.05;
+        letter-spacing: 0.08em;
+        padding-left: 0.08em;
+        white-space: nowrap;
+        text-align: center;
+      }
+      .tag {
+        display: block;
+        font-size: 30px;
+        letter-spacing: 0.32em;
+        padding-left: 0.32em;
+        text-transform: uppercase;
+        text-align: center;
+      }
+      .tick {
+        display: block;
+        width: 120px;
+        height: 2px;
+      }
+
+      /* Italia — marble white */
+      #s-italia .bg {
+        background: radial-gradient(circle at 50% 40%, #fbf9f5 0%, #ece7e0 48%, #cfc7bc 100%);
+      }
+      #s-italia .ghost {
+        color: rgba(120, 104, 84, 0.08);
+      }
+      #s-italia .kicker,
+      #s-italia .name {
+        color: #2a221b;
+      }
+      #s-italia .tag {
+        color: #6e5326;
+      }
+      #s-italia .tick {
+        background: #a9823e;
+      }
+
+      /* Cedrus Blanc — sand */
+      #s-cedrus .bg {
+        background: radial-gradient(circle at 50% 40%, #f1e6d4 0%, #dcc8a8 50%, #b4946b 100%);
+      }
+      #s-cedrus .ghost {
+        color: rgba(90, 60, 25, 0.09);
+      }
+      #s-cedrus .kicker,
+      #s-cedrus .name {
+        color: #2c1f12;
+      }
+      #s-cedrus .tag {
+        color: #5c4116;
+      }
+      #s-cedrus .tick {
+        background: #2c1f12;
+      }
+
+      /* Tonquin Giza — amber */
+      #s-tonquin .bg {
+        background: radial-gradient(circle at 50% 40%, #c4581b 0%, #7a2a0a 50%, #2a0c03 100%);
+      }
+      #s-tonquin .ghost {
+        color: rgba(255, 200, 130, 0.08);
+      }
+      #s-tonquin .kicker,
+      #s-tonquin .name {
+        color: #fbead0;
+      }
+      #s-tonquin .tag {
+        color: #f3c983;
+      }
+      #s-tonquin .tick {
+        background: #f3c983;
+      }
+      #s-tonquin .shadow {
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 70%);
+      }
+
+      /* ---------- outro ---------- */
+      #outro .bg {
+        background: radial-gradient(circle at 50% 38%, #2c2016 0%, #120d09 58%, #080605 100%);
+      }
+      .lineup {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 330px;
+        height: 620px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 30px;
+      }
+      .mini {
+        display: block;
+        height: 560px;
+        width: auto;
+        transform-origin: 50% 100%;
+      }
+      .mini.side {
+        height: 500px;
+      }
+      .lineup-floor {
+        position: absolute;
+        left: 120px;
+        right: 120px;
+        top: 935px;
+        height: 60px;
+        border-radius: 50%;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 70%);
+      }
+      .outro-copy {
+        position: absolute;
+        left: 60px;
+        right: 60px;
+        top: 1060px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+      }
+      .outro-copy .wordmark {
+        font-size: 128px;
+      }
+      .cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 92px;
+        padding: 0 54px;
+        border: 2px solid var(--gold);
+        border-radius: 46px;
+        font-size: 30px;
+        letter-spacing: 0.34em;
+        padding-left: calc(54px + 0.34em);
+        text-transform: uppercase;
+        color: #f5e7c8;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="10"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- 0.0s — brand open -->
+      <section id="intro" class="scene clip" data-start="0" data-duration="1.6" data-track-index="0" style="z-index: 1">
+        <div class="wipe">
+          <div class="bg"></div>
+          <div class="intro-stack">
+            <span class="mask" style="overflow: visible; clip-path: inset(0 -400px 0 -400px)"><span id="intro-word" class="wordmark"><span class="ch">R</span><span class="ch">A</span><span class="ch">Y</span><span class="ch">H</span><span class="ch">A</span><span class="ch">A</span><span class="ch">N</span></span></span>
+            <span id="intro-rule" class="rule"></span>
+            <span class="mask"><span id="intro-sub" class="intro-sub">The Signature Collection</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1.3s — Italia -->
+      <section id="s-italia" class="scene clip" data-start="1.3" data-duration="2.6" data-track-index="1" style="z-index: 2">
+        <div id="italia-wipe" class="wipe">
+          <div class="bg"></div>
+          <div id="italia-ghost" class="ghost" data-layout-allow-occlusion data-layout-allow-overlap>ITALIA</div>
+          <div class="kicker" data-layout-allow-overlap><span>No. 01</span><span>·</span><span>Rayhaan</span></div>
+          <div class="stage">
+            <div id="italia-shadow" class="shadow"></div>
+            <div id="italia-bottle" class="bottle">
+              <img src="assets/cut/italia.png" alt="Rayhaan Italia Pour Homme bottle" />
+              <div class="shine" style="-webkit-mask-image: url(assets/cut/italia.png); mask-image: url(assets/cut/italia.png)">
+                <div id="italia-shine" class="shine-bar" data-layout-allow-overflow></div>
+              </div>
+            </div>
+          </div>
+          <div class="caption">
+            <span class="mask"><span id="italia-name" class="name" data-layout-allow-overlap>ITALIA</span></span>
+            <span id="italia-tick" class="tick"></span>
+            <span class="mask"><span id="italia-tag" class="tag" data-layout-allow-overlap>Pour Homme</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3.6s — Cedrus Blanc -->
+      <section id="s-cedrus" class="scene clip" data-start="3.6" data-duration="2.6" data-track-index="2" style="z-index: 3">
+        <div id="cedrus-wipe" class="wipe">
+          <div class="bg"></div>
+          <div id="cedrus-ghost" class="ghost" data-layout-allow-occlusion data-layout-allow-overlap>CEDRUS</div>
+          <div class="kicker" data-layout-allow-overlap><span>No. 02</span><span>·</span><span>Rayhaan</span></div>
+          <div class="stage">
+            <div id="cedrus-shadow" class="shadow"></div>
+            <div id="cedrus-bottle" class="bottle">
+              <img src="assets/cut/cedrus-blanc.png" alt="Rayhaan Cedrus Blanc bottle" />
+              <div class="shine" style="-webkit-mask-image: url(assets/cut/cedrus-blanc.png); mask-image: url(assets/cut/cedrus-blanc.png)">
+                <div id="cedrus-shine" class="shine-bar" data-layout-allow-overflow></div>
+              </div>
+            </div>
+          </div>
+          <div class="caption">
+            <span class="mask"><span id="cedrus-name" class="name" data-layout-allow-overlap>CEDRUS BLANC</span></span>
+            <span id="cedrus-tick" class="tick"></span>
+            <span class="mask"><span id="cedrus-tag" class="tag" data-layout-allow-overlap>Soft woods · pure light</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5.9s — Tonquin Giza -->
+      <section id="s-tonquin" class="scene clip" data-start="5.9" data-duration="2.6" data-track-index="3" style="z-index: 4">
+        <div id="tonquin-wipe" class="wipe">
+          <div class="bg"></div>
+          <div id="tonquin-ghost" class="ghost" data-layout-allow-occlusion data-layout-allow-overlap>GIZA</div>
+          <div class="kicker" data-layout-allow-overlap><span>No. 03</span><span>·</span><span>Rayhaan</span></div>
+          <div class="stage">
+            <div id="tonquin-shadow" class="shadow"></div>
+            <div id="tonquin-bottle" class="bottle">
+              <img src="assets/cut/tonquin-giza.png" alt="Rayhaan Tonquin Giza bottle" />
+              <div class="shine" style="-webkit-mask-image: url(assets/cut/tonquin-giza.png); mask-image: url(assets/cut/tonquin-giza.png)">
+                <div id="tonquin-shine" class="shine-bar" data-layout-allow-overflow></div>
+              </div>
+            </div>
+          </div>
+          <div class="caption">
+            <span class="mask"><span id="tonquin-name" class="name" data-layout-allow-overlap>TONQUIN GIZA</span></span>
+            <span id="tonquin-tick" class="tick"></span>
+            <span class="mask"><span id="tonquin-tag" class="tag" data-layout-allow-overlap>Warm amber nights</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8.2s — collection close -->
+      <section id="outro" class="scene clip" data-start="8.2" data-duration="1.8" data-track-index="4" style="z-index: 5">
+        <div id="outro-wipe" class="wipe">
+          <div class="bg"></div>
+          <div class="lineup-floor"></div>
+          <div class="lineup">
+            <img id="mini-1" class="mini side" src="assets/cut/italia.png" alt="Italia" />
+            <img id="mini-2" class="mini" src="assets/cut/tonquin-giza.png" alt="Tonquin Giza" />
+            <img id="mini-3" class="mini side" src="assets/cut/cedrus-blanc.png" alt="Cedrus Blanc" />
+          </div>
+          <div class="outro-copy">
+            <span class="mask"><span id="outro-word" class="wordmark">RAYHAAN</span></span>
+            <span class="mask"><span id="outro-sub" class="intro-sub">Three signatures. One house.</span></span>
+            <div id="outro-cta" class="cta">Shop · Link in bio</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // ---- intro (0 → 1.6) ----
+      tl.fromTo("#intro-word", { yPercent: 110 }, { yPercent: 0, duration: 0.7, ease: "expo.out" }, 0.05);
+      // letters spread from a wide tracking into the wordmark (per-glyph x keeps it sub-pixel smooth)
+      gsap.utils.toArray("#intro-word .ch").forEach((ch, i) => {
+        tl.fromTo(ch, { x: (i - 3) * 46 }, { x: 0, duration: 1.2, ease: "power3.out" }, 0.05);
+      });
+      tl.fromTo("#intro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 0.35);
+      tl.fromTo("#intro-sub", { yPercent: 120 }, { yPercent: 0, duration: 0.6, ease: "expo.out" }, 0.55);
+
+      // ---- one product scene: wipe up, bottle rises, light sweeps, name reveals ----
+      function productScene(key, t0) {
+        tl.fromTo(
+          `#${key}-wipe`,
+          { clipPath: "inset(100% 0% 0% 0%)" },
+          { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power3.inOut" },
+          t0
+        );
+        tl.fromTo(`#${key}-ghost`, { yPercent: 18, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.4, ease: "power2.out" }, t0 + 0.1);
+        tl.fromTo(`#${key}-ghost`, { scale: 1 }, { scale: 1.06, duration: 2.5, ease: "none", immediateRender: false }, t0 + 0.1);
+        tl.fromTo(`#${key}-bottle`, { y: 180, scale: 0.9 }, { y: 0, scale: 1, duration: 0.9, ease: "expo.out" }, t0 + 0.15);
+        tl.fromTo(`#${key}-shadow`, { scaleX: 0.5, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.9, ease: "expo.out" }, t0 + 0.15);
+        tl.to(`#${key}-bottle`, { scale: 1.035, duration: 1.5, ease: "sine.inOut" }, t0 + 1.05);
+        tl.fromTo(`#${key}-shine`, { xPercent: -160 }, { xPercent: 260, duration: 0.9, ease: "power2.inOut" }, t0 + 0.75);
+        tl.fromTo(`#${key}-name`, { yPercent: 110 }, { yPercent: 0, duration: 0.7, ease: "expo.out" }, t0 + 0.4);
+        tl.fromTo(`#${key}-tick`, { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out" }, t0 + 0.6);
+        tl.fromTo(`#${key}-tag`, { yPercent: 120 }, { yPercent: 0, duration: 0.6, ease: "expo.out" }, t0 + 0.7);
+      }
+      productScene("italia", 1.3);
+      productScene("cedrus", 3.6);
+      productScene("tonquin", 5.9);
+
+      // ---- outro (8.2 → 10) ----
+      tl.fromTo("#outro-wipe", { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power3.inOut" }, 8.2);
+      tl.fromTo(["#mini-1", "#mini-2", "#mini-3"], { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "expo.out", stagger: 0.08 }, 8.3);
+      tl.fromTo("#outro-word", { yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "expo.out" }, 8.5);
+      tl.fromTo("#outro-sub", { yPercent: 120 }, { yPercent: 0, duration: 0.6, ease: "expo.out" }, 8.65);
+      tl.fromTo("#outro-cta", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 8.85);
+      tl.fromTo("#outro-cta", { scale: 1 }, { scale: 1.05, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 9.3);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
