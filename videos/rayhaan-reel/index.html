@@ -47,6 +47,7 @@
         --ink: #0e0b08;
         --gold: #d9b56f;
         --gold-deep: #8a6428;
+        --brand: #4c1526;
       }
 
       * {
@@ -424,6 +425,32 @@
         color: #fbf0dc;
         direction: ltr;
       }
+      /* ---------- brand-colour open & close (ivory ground so the #4C1526 logo reads) ---------- */
+      #intro .bg,
+      #outro .bg {
+        background: radial-gradient(circle at 50% 42%, #fbf6ee 0%, #f0e6d8 55%, #ddcdb7 100%);
+      }
+      #intro .wordmark {
+        color: #7a5521;
+      }
+      #intro .rule {
+        background: linear-gradient(90deg, transparent, var(--brand), transparent);
+      }
+      #intro .intro-he,
+      #outro .outro-he {
+        color: var(--brand);
+      }
+      #outro .outro-he-sub {
+        color: #6b4a1c;
+      }
+      #outro .lineup-floor {
+        background: radial-gradient(ellipse at center, rgba(76, 21, 38, 0.35) 0%, rgba(76, 21, 38, 0) 70%);
+      }
+      #outro .url {
+        border-color: var(--brand);
+        background: var(--brand);
+        color: #fbf0dc;
+      }
     </style>
   </head>
   <body>
@@ -440,7 +467,7 @@
         <div class="wipe">
           <div class="bg"></div>
           <div class="intro-stack">
-            <img id="intro-emblem" class="emblem" src="assets/logo/fralora-emblem-gold.png" alt="Fralora emblem" />
+            <img id="intro-emblem" class="emblem" src="assets/logo/fralora-emblem-brand.png" alt="Fralora emblem" />
             <span class="mask" style="overflow: visible; clip-path: inset(0 -400px 0 -400px)"><span id="intro-word" class="wordmark"><span class="ch">R</span><span class="ch">A</span><span class="ch">Y</span><span class="ch">H</span><span class="ch">A</span><span class="ch">A</span><span class="ch">N</span></span></span>
             <span id="intro-rule" class="rule"></span>
             <span class="mask"><span id="intro-sub" class="he intro-he">בלעדי ב-Fralora</span></span>
@@ -521,7 +548,7 @@
       <section id="outro" class="scene clip" data-start="8.6" data-duration="3.4" data-track-index="4" style="z-index: 5">
         <div id="outro-wipe" class="wipe">
           <div class="bg"></div>
-          <img id="outro-logo" class="fralora-mark" src="assets/logo/fralora-wordmark-gold.png" alt="Fralora Paris" />
+          <img id="outro-logo" class="fralora-mark" src="assets/logo/fralora-wordmark-brand.png" alt="Fralora Paris" />
           <div class="lineup-floor"></div>
           <div class="lineup">
             <img id="mini-1" class="mini side" src="assets/cut/cedrus-blanc.png" alt="Cedrus Blanc" />
