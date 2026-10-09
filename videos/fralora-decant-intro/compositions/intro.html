@@ -62,60 +62,72 @@
         color: var(--ivory-dim);
       }
 
-      /* build: vial */
+      /* build: decant bottle */
       #build-title {
         font-family: var(--serif);
         font-weight: 500;
         font-size: 112px;
         line-height: 1.1;
       }
-      .vial-wrap {
+      .bottle-stage {
         position: relative;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 220px;
-        height: 760px;
+        justify-content: center;
+        align-items: flex-end;
+        width: 520px;
+        height: 860px;
       }
-      .vial-cap {
-        width: 96px;
-        height: 120px;
-        border-radius: 14px 14px 6px 6px;
-        background: linear-gradient(90deg, var(--gold-deep), var(--gold) 45%, #f1d9a6 55%, var(--gold-deep));
-      }
-      .vial-neck {
-        width: 70px;
-        height: 26px;
-        background: var(--glass);
-        border: 3px solid var(--glass-edge);
-        border-top: none;
-        border-bottom: none;
-      }
-      .vial-body {
-        position: relative;
-        width: 170px;
-        height: 600px;
-        border: 3px solid var(--glass-edge);
-        border-radius: 22px 22px 85px 85px;
-        background: var(--glass);
-        overflow: hidden;
-      }
-      .liquid {
+      .bottle-glow {
         position: absolute;
         left: 0;
-        right: 0;
+        top: 60px;
+        width: 520px;
+        height: 720px;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(212, 175, 114, 0.38), rgba(212, 175, 114, 0.12) 55%, rgba(212, 175, 114, 0));
+      }
+      .bottle-shadow {
+        position: absolute;
+        left: 110px;
         bottom: 0;
-        height: 100%;
-        transform-origin: 50% 100%;
-        background: linear-gradient(180deg, rgba(240, 200, 120, 0.95) 0%, var(--amber) 30%, #b97d33 100%);
+        width: 300px;
+        height: 40px;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(10, 2, 5, 0.75), rgba(10, 2, 5, 0));
       }
-      .shine {
+      .bottle {
+        position: relative;
+        width: 172px;
+        height: 821px;
+        margin-bottom: 18px;
+        transform-origin: 50% 100%;
+      }
+      .bottle-float {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .bottle-img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .bottle-sheen {
         position: absolute;
-        top: -10%;
+        inset: 0;
+        overflow: hidden;
+        -webkit-mask-image: url("assets/brand/decant-10ml.png");
+        mask-image: url("assets/brand/decant-10ml.png");
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+      }
+      .sheen-band {
+        position: absolute;
+        top: -5%;
         left: 0;
-        width: 60px;
-        height: 120%;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0));
+        width: 90px;
+        height: 110%;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
       }
       .chips {
         display: flex;
@@ -154,15 +166,6 @@
         display: block;
         width: 100%;
         height: auto;
-      }
-      .vial-emblem {
-        position: absolute;
-        left: 50%;
-        top: 250px;
-        width: 72px;
-        height: auto;
-        margin-left: -36px;
-        opacity: 0.85;
       }
       .rule {
         width: 560px;
@@ -208,13 +211,16 @@
             <span class="word">קודם</span>
             <span class="word gold">בדיקנט</span>
           </div>
-          <div class="vial-wrap" id="vial">
-            <div class="vial-cap"></div>
-            <div class="vial-neck"></div>
-            <div class="vial-body">
-              <div class="liquid" id="liquid"></div>
-              <img class="vial-emblem" id="vial-emblem" src="assets/brand/emblem-white-small.png" alt="" />
-              <div class="shine" id="shine" data-layout-allow-overflow="true"></div>
+          <div class="bottle-stage" id="bottle-stage">
+            <div class="bottle-glow" id="bottle-glow"></div>
+            <div class="bottle-shadow" id="bottle-shadow"></div>
+            <div class="bottle" id="bottle">
+              <div class="bottle-float" id="bottle-float">
+                <img class="bottle-img" src="assets/brand/decant-10ml.png" alt="FRALORA 10 ml decant" />
+                <div class="bottle-sheen" data-layout-allow-overflow="true">
+                  <div class="sheen-band" id="sheen"></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="chips">
@@ -284,9 +290,19 @@
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.out", stagger: 0.14 },
         2.75
       );
-      tl.fromTo("#vial", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 2.9);
-      tl.fromTo("#liquid", { scaleY: 0 }, { scaleY: 0.8, duration: 1.4, ease: "power2.inOut" }, 3.2);
-      tl.fromTo("#shine", { x: -90 }, { x: 220, duration: 0.8, ease: "power1.inOut" }, 4.5);
+      tl.fromTo("#bottle-glow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1.0, ease: "power2.out" }, 2.85);
+      tl.fromTo(
+        "#bottle",
+        { opacity: 0, y: 260, rotation: -9 },
+        { opacity: 1, y: 0, rotation: 0, duration: 1.0, ease: "power3.out" },
+        2.9
+      );
+      tl.fromTo("#bottle-shadow", { opacity: 0, scaleX: 0.4 }, { opacity: 1, scaleX: 1, duration: 1.0, ease: "power3.out" }, 2.9);
+      // gentle hover once it lands
+      tl.fromTo("#bottle-float", { y: 0, rotation: 0 }, { y: -18, rotation: 1.5, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, 3.9);
+      tl.fromTo("#bottle-shadow", { scaleX: 1 }, { scaleX: 0.86, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, 3.9);
+      // light sweep across the glass
+      tl.fromTo("#sheen", { x: -120 }, { x: 220, duration: 0.9, ease: "power2.inOut" }, 3.75);
       ["#chip-2", "#chip-5", "#chip-10"].forEach((sel, i) => {
         tl.fromTo(sel, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.2)" }, 4.3 + i * 0.15);
       });
