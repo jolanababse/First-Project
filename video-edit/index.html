@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
+    <script src="gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Big Shoulders";
+        src: url("fonts/BigShoulders-Bold.ttf") format("truetype");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Inter";
+        src: url("fonts/Inter-ExtraBold.otf") format("opentype");
+        font-weight: 800;
+      }
+      @font-face {
+        font-family: "Inter";
+        src: url("fonts/Inter-Medium.otf") format("opentype");
+        font-weight: 500;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #07060f;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      /* ---------- Background set ---------- */
+      #set {
+        position: absolute;
+        inset: -60px;
+        background: linear-gradient(170deg, #120c2c 0%, #1c1046 38%, #2a0f3a 70%, #0b0716 100%);
+      }
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+      }
+      #orb-a {
+        width: 760px;
+        height: 760px;
+        left: -220px;
+        top: 180px;
+        background: radial-gradient(circle, rgba(255, 92, 168, 0.75), rgba(255, 92, 168, 0) 70%);
+      }
+      #orb-b {
+        width: 820px;
+        height: 820px;
+        right: -260px;
+        top: 760px;
+        background: radial-gradient(circle, rgba(64, 140, 255, 0.7), rgba(64, 140, 255, 0) 70%);
+      }
+      #orb-c {
+        width: 560px;
+        height: 560px;
+        left: 280px;
+        top: -160px;
+        background: radial-gradient(circle, rgba(255, 190, 92, 0.45), rgba(255, 190, 92, 0) 70%);
+      }
+      #spot {
+        position: absolute;
+        left: 90px;
+        top: 160px;
+        width: 1020px;
+        height: 1020px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 236, 214, 0.42) 0%, rgba(255, 210, 180, 0.12) 38%, rgba(255, 210, 180, 0) 68%);
+      }
+      #grid {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 760px;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.07) 2px, transparent 2px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.07) 2px, transparent 2px);
+        background-size: 90px 90px;
+        -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+        mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+      }
+      #backword {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 330px;
+        display: flex;
+        justify-content: center;
+        font-family: "Big Shoulders", sans-serif;
+        font-weight: 700;
+        font-size: 560px;
+        line-height: 1;
+        letter-spacing: 12px;
+        color: rgba(255, 255, 255, 0.06);
+        -webkit-text-stroke: 4px rgba(255, 255, 255, 0.18);
+      }
+      #sweep {
+        position: absolute;
+        top: -200px;
+        left: -700px;
+        width: 520px;
+        height: 2400px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 244, 230, 0.16), rgba(255, 255, 255, 0));
+        rotate: 18deg;
+      }
+
+      /* ---------- Talent ---------- */
+      #cam {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 32%;
+      }
+      #rim {
+        position: absolute;
+        inset: 0;
+        filter: drop-shadow(0 0 3px rgba(255, 200, 220, 0.6));
+      }
+      #talent {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      #floor-fade {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 420px;
+        background: linear-gradient(to top, rgba(7, 6, 15, 0.85), rgba(7, 6, 15, 0));
+      }
+
+      /* ---------- Text ---------- */
+      .layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      #hook {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 150px;
+        display: flex;
+        justify-content: center;
+        gap: 34px;
+      }
+      .hw {
+        display: block;
+        font-family: "Big Shoulders", sans-serif;
+        font-weight: 700;
+        font-size: 210px;
+        line-height: 1;
+        letter-spacing: 4px;
+        color: #fff;
+        text-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+      }
+      .hw.accent {
+        color: #ffd25e;
+      }
+      #pill-wrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 1250px;
+        display: flex;
+        justify-content: center;
+      }
+      #pill {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 26px 46px;
+        border-radius: 999px;
+        background: rgba(15, 10, 34, 0.72);
+        border: 2px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      }
+      #pill-dot {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #ff4f9a;
+        box-shadow: 0 0 22px #ff4f9a;
+      }
+      #pill-text {
+        font-weight: 800;
+        font-size: 58px;
+        color: #fff;
+        letter-spacing: 1px;
+      }
+      #stay {
+        position: absolute;
+        left: 70px;
+        top: 130px;
+        width: 940px;
+      }
+      .stay-line {
+        display: block;
+        font-family: "Big Shoulders", sans-serif;
+        font-weight: 700;
+        font-size: 150px;
+        line-height: 0.95;
+        color: #fff;
+        text-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+      }
+      #stay-bar {
+        display: block;
+        width: 420px;
+        height: 16px;
+        margin-top: 26px;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #ff4f9a, #ffd25e);
+        transform-origin: 0 50%;
+      }
+      #cta-wrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 1530px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+      }
+      #cta-title {
+        font-family: "Big Shoulders", sans-serif;
+        font-weight: 700;
+        font-size: 130px;
+        line-height: 1;
+        color: #fff;
+        text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      }
+      #cta-btn {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 30px 64px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #c8185f, #c2410c);
+        box-shadow: 0 18px 50px rgba(255, 79, 154, 0.45);
+      }
+      #cta-plus {
+        font-weight: 800;
+        font-size: 64px;
+        line-height: 1;
+        color: #fff;
+      }
+      #cta-label {
+        font-weight: 800;
+        font-size: 58px;
+        line-height: 1;
+        color: #fff;
+        letter-spacing: 2px;
+      }
+      #flash {
+        position: absolute;
+        inset: 0;
+        background: #fff6ec;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-0whd" id="root" data-composition-id="main" data-start="0" data-duration="13.83" data-width="1080" data-height="1920">
+      <!-- Original voice track (picture comes from the cut-out talent layer) -->
+      <audio data-hf-id="hf-6imp" id="voice" src="voice.m4a" data-start="0" data-duration="13.83" data-track-index="0" data-volume="1"></audio>
+
+      <!-- New background set -->
+      <div data-hf-id="hf-apv5" id="bg" class="clip" data-start="0" data-duration="13.83" data-track-index="1" style="position: absolute; inset: 0">
+        <div data-hf-id="hf-0abr" id="set">
+          <div data-hf-id="hf-jgro" id="orb-c" data-layout-allow-overflow class="orb"></div>
+          <div data-hf-id="hf-o6ji" id="orb-a" data-layout-allow-overflow class="orb"></div>
+          <div data-hf-id="hf-k8fh" id="orb-b" data-layout-allow-overflow class="orb"></div>
+          <div data-hf-id="hf-y9ed" id="spot"></div>
+          <div data-hf-id="hf-gs5t" id="grid"></div>
+          <div data-hf-id="hf-38yh" id="backword" data-layout-allow-occlusion>ICON</div>
+          <div data-hf-id="hf-1yur" id="sweep" data-layout-allow-overflow></div>
+        </div>
+      </div>
+
+      <!-- Cut-out talent with camera moves + rim light -->
+      <div data-hf-id="hf-ftaq" id="cam">
+        <div data-hf-id="hf-0evj" id="rim">
+          <video data-hf-id="hf-0wlt" id="talent" class="clip" src="person_graded.webm" playsinline muted data-start="0" data-duration="13.83" data-track-index="2"></video>
+        </div>
+      </div>
+
+      <div data-hf-id="hf-aljd" id="vignette-floor" class="clip" data-start="0" data-duration="13.83" data-track-index="3" style="position: absolute; inset: 0">
+        <div data-hf-id="hf-j01w" id="floor-fade"></div>
+      </div>
+
+      <!-- Hook title -->
+      <div data-hf-id="hf-oqu2" id="t-hook" class="clip layer" data-start="0" data-duration="3.0" data-track-index="4">
+        <div data-hf-id="hf-a60g" id="hook">
+          <span data-hf-id="hf-suf4" class="hw" id="hw1">REAL</span>
+          <span data-hf-id="hf-0mtb" class="hw accent" id="hw2">TALK</span>
+        </div>
+      </div>
+
+      <!-- Pill callout -->
+      <div data-hf-id="hf-xpao" id="t-pill" class="clip layer" data-start="3.1" data-duration="3.6" data-track-index="4">
+        <div data-hf-id="hf-1l75" id="pill-wrap">
+          <div data-hf-id="hf-6cks" id="pill">
+            <div data-hf-id="hf-h0ki" id="pill-dot"></div>
+            <div data-hf-id="hf-bovs" id="pill-text">Listen to this</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stay with me -->
+      <div data-hf-id="hf-2wpk" id="t-stay" class="clip layer" data-start="7.0" data-duration="3.7" data-track-index="4">
+        <div data-hf-id="hf-xmgy" id="stay">
+          <span data-hf-id="hf-e146" class="stay-line" id="sl1">STAY</span>
+          <span data-hf-id="hf-cpaq" class="stay-line" id="sl2">WITH ME</span>
+          <span data-hf-id="hf-cket" id="stay-bar"></span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div data-hf-id="hf-3ym5" id="t-cta" class="clip layer" data-start="10.8" data-duration="3.03" data-track-index="4">
+        <div data-hf-id="hf-hck2" id="cta-wrap">
+          <div data-hf-id="hf-jalr" id="cta-title">DON'T MISS IT</div>
+          <div data-hf-id="hf-z81u" id="cta-btn">
+            <div data-hf-id="hf-x5c3" id="cta-plus">+</div>
+            <div data-hf-id="hf-cmd1" id="cta-label">FOLLOW</div>
+          </div>
+        </div>
+      </div>
+
+      <div data-hf-id="hf-u4xd" id="fx" class="clip layer" data-start="0" data-duration="13.83" data-track-index="5">
+        <div data-hf-id="hf-hmg5" id="flash"></div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const D = 13.83;
+
+      // ---- Background life: drifting orbs, breathing key light, light sweeps
+      tl.fromTo("#orb-a", { x: 0, y: 0 }, { x: 260, y: 220, duration: D, ease: "sine.inOut" }, 0);
+      tl.fromTo("#orb-b", { x: 0, y: 0 }, { x: -240, y: -280, duration: D, ease: "sine.inOut" }, 0);
+      tl.fromTo("#orb-c", { x: 0, scale: 0.9 }, { x: -180, scale: 1.15, duration: D, ease: "sine.inOut" }, 0);
+      tl.fromTo("#spot", { opacity: 0.75, scale: 0.94 }, { opacity: 1, scale: 1.06, duration: D / 2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+      tl.fromTo("#set", { scale: 1.08 }, { scale: 1.0, duration: D, ease: "none" }, 0);
+      tl.fromTo("#backword", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1.4, ease: "power2.out" }, 0.2);
+      tl.to("#backword", { y: -60, duration: D - 1.6, ease: "none" }, 1.6);
+      tl.fromTo("#sweep", { x: 0 }, { x: 2200, duration: 2.2, ease: "power1.inOut" }, 0.4);
+      tl.fromTo("#sweep", { x: 0 }, { x: 2200, duration: 2.2, ease: "power1.inOut", immediateRender: false }, 6.9);
+
+      // ---- Camera: intro push, punch-ins on beats, settle for the CTA
+      tl.fromTo("#cam", { scale: 1.18, y: 60 }, { scale: 1.02, y: 0, duration: 1.2, ease: "expo.out" }, 0);
+      tl.to("#cam", { scale: 1.06, duration: 1.8, ease: "sine.inOut" }, 1.2);
+      tl.to("#cam", { scale: 1.16, duration: 0.35, ease: "power3.out" }, 3.05);
+      tl.to("#cam", { scale: 1.2, duration: 3.5, ease: "none" }, 3.4);
+      tl.to("#cam", { scale: 1.08, x: 30, duration: 0.45, ease: "power3.out" }, 6.95);
+      tl.to("#cam", { scale: 1.12, duration: 3.3, ease: "none" }, 7.4);
+      tl.to("#cam", { scale: 1.02, x: 0, duration: 0.6, ease: "power3.inOut" }, 10.7);
+      tl.to("#cam", { scale: 1.06, duration: 2.5, ease: "none" }, 11.3);
+      tl.fromTo("#rim", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0);
+
+      // ---- Flash accents on the cuts
+      [0.0, 3.05, 6.95, 10.7].forEach((t, i) => {
+        tl.fromTo("#flash", { opacity: i === 0 ? 0.9 : 0.35 }, { opacity: 0, duration: i === 0 ? 0.6 : 0.3, ease: "power2.out", immediateRender: false }, t);
+      });
+
+      // ---- Hook title
+      tl.fromTo("#hw1", { y: -160, opacity: 0, rotation: -6 }, { y: 0, opacity: 1, rotation: 0, duration: 0.55, ease: "back.out(2)" }, 0.25);
+      tl.fromTo("#hw2", { y: 160, opacity: 0, scale: 1.6 }, { y: 0, opacity: 1, scale: 1, duration: 0.55, ease: "back.out(2)" }, 0.5);
+      tl.to("#hook", { scale: 1.05, duration: 1.6, ease: "sine.inOut" }, 1.1);
+      tl.to(["#hw1", "#hw2"], { y: -40, opacity: 0, duration: 0.3, ease: "power2.in", stagger: 0.06 }, 2.65);
+
+      // ---- Pill callout
+      tl.fromTo("#pill", { scale: 0.4, opacity: 0, y: 40 }, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.8)" }, 3.2);
+      tl.fromTo("#pill-dot", { scale: 1 }, { scale: 1.35, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 5 }, 3.7);
+      tl.to("#pill", { y: -14, duration: 2.6, ease: "sine.inOut" }, 3.7);
+      tl.to("#pill", { scale: 0.85, opacity: 0, duration: 0.3, ease: "power2.in" }, 6.35);
+
+      // ---- Stay with me
+      tl.fromTo("#sl1", { x: -300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power4.out" }, 7.1);
+      tl.fromTo("#sl2", { x: -300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power4.out" }, 7.25);
+      tl.fromTo("#stay-bar", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, 7.55);
+      tl.to("#stay", { y: 20, duration: 2.6, ease: "sine.inOut" }, 7.7);
+      tl.to(["#sl1", "#sl2", "#stay-bar"], { x: 120, opacity: 0, duration: 0.3, ease: "power2.in", stagger: 0.05 }, 10.3);
+
+      // ---- CTA
+      tl.fromTo("#cta-title", { y: 80, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.55, ease: "back.out(1.6)" }, 10.95);
+      tl.fromTo("#cta-btn", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2.2)" }, 11.25);
+      tl.fromTo("#cta-btn", { scale: 1 }, { scale: 1.07, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, 11.9);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
