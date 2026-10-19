@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="he" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Frank Ruhl";
+        src: url("fonts/frank-ruhl-libre-hebrew-900-normal.woff2") format("woff2");
+        font-weight: 900;
+        unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+      }
+      @font-face {
+        font-family: "Frank Ruhl";
+        src: url("fonts/frank-ruhl-libre-latin-900-normal.woff2") format("woff2");
+        font-weight: 900;
+        unicode-range: U+0000-00FF;
+      }
+      @font-face {
+        font-family: "Frank Ruhl";
+        src: url("fonts/frank-ruhl-libre-hebrew-400-normal.woff2") format("woff2");
+        font-weight: 400;
+        unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+      }
+      @font-face {
+        font-family: "Frank Ruhl";
+        src: url("fonts/frank-ruhl-libre-latin-400-normal.woff2") format("woff2");
+        font-weight: 400;
+        unicode-range: U+0000-00FF;
+      }
+      @font-face {
+        font-family: "Heebo";
+        src: url("fonts/heebo-hebrew-300-normal.woff2") format("woff2");
+        font-weight: 300;
+        unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+      }
+      @font-face {
+        font-family: "Heebo";
+        src: url("fonts/heebo-latin-300-normal.woff2") format("woff2");
+        font-weight: 300;
+        unicode-range: U+0000-00FF;
+      }
+      @font-face {
+        font-family: "Heebo";
+        src: url("fonts/heebo-hebrew-500-normal.woff2") format("woff2");
+        font-weight: 500;
+        unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+      }
+      @font-face {
+        font-family: "Heebo";
+        src: url("fonts/heebo-latin-500-normal.woff2") format("woff2");
+        font-weight: 500;
+        unicode-range: U+0000-00FF;
+      }
+      @font-face {
+        font-family: "Heebo";
+        src: url("fonts/heebo-hebrew-800-normal.woff2") format("woff2");
+        font-weight: 800;
+        unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+      }
+      @font-face {
+        font-family: "Heebo";
+        src: url("fonts/heebo-latin-800-normal.woff2") format("woff2");
+        font-weight: 800;
+        unicode-range: U+0000-00FF;
+      }
+      @font-face {
+        font-family: "Italiana";
+        src: url("fonts/Italiana-Regular.ttf") format("truetype");
+        font-weight: 400;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #050403;
+      }
+      body {
+        font-family: "Heebo", sans-serif;
+        color: #fff;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .full {
+        position: absolute;
+        inset: 0;
+      }
+      .center-col {
+        position: absolute;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .he {
+        direction: rtl;
+        text-align: center;
+      }
+
+      /* ---------- Persistent backdrop ---------- */
+      #bg-base {
+        background: radial-gradient(ellipse 90% 60% at 50% 42%, #2a2014 0%, #120d08 45%, #050403 100%);
+      }
+      #bg-glow {
+        position: absolute;
+        left: 90px;
+        top: 460px;
+        width: 900px;
+        height: 900px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(222, 184, 107, 0.32) 0%, rgba(222, 184, 107, 0.08) 40%, rgba(222, 184, 107, 0) 68%);
+      }
+      .ring {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        border-radius: 50%;
+        border: 2px solid rgba(222, 184, 107, 0.18);
+      }
+      #ring-1 {
+        width: 980px;
+        height: 980px;
+        margin-left: -490px;
+        margin-top: -590px;
+      }
+      #ring-2 {
+        width: 760px;
+        height: 760px;
+        margin-left: -380px;
+        margin-top: -480px;
+        border-color: rgba(222, 184, 107, 0.1);
+      }
+      .spark {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle, #ffe7b0 0%, rgba(255, 210, 130, 0.6) 40%, rgba(255, 210, 130, 0) 72%);
+      }
+      #frame {
+        position: absolute;
+        inset: 44px;
+        border: 2px solid rgba(222, 184, 107, 0.35);
+      }
+      .corner {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border-color: #deb86b;
+        border-style: solid;
+        border-width: 0;
+      }
+      #c-tl { left: 30px; top: 30px; border-top-width: 4px; border-left-width: 4px; }
+      #c-tr { right: 30px; top: 30px; border-top-width: 4px; border-right-width: 4px; }
+      #c-bl { left: 30px; bottom: 30px; border-bottom-width: 4px; border-left-width: 4px; }
+      #c-br { right: 30px; bottom: 30px; border-bottom-width: 4px; border-right-width: 4px; }
+
+      /* ---------- Scene 1: Bujairami X Fralora ---------- */
+      #s1-logo-wrap {
+        top: 330px;
+      }
+      #s1-logo {
+        display: block;
+        width: 380px;
+        height: auto;
+      }
+      #s1-x-wrap {
+        top: 1000px;
+        height: 150px;
+        justify-content: center;
+      }
+      #s1-x {
+        position: relative;
+        width: 130px;
+        height: 130px;
+      }
+      .xbar {
+        position: absolute;
+        left: -14px;
+        top: 61px;
+        width: 158px;
+        height: 8px;
+        border-radius: 4px;
+        background: linear-gradient(90deg, #a87d36, #ffe3a3, #a87d36);
+      }
+      #s1-fralora-wrap {
+        top: 1230px;
+      }
+      .wordmark {
+        font-family: "Italiana", serif;
+        font-weight: 400;
+        color: #f4e2b8;
+        letter-spacing: 34px;
+        line-height: 1;
+        padding-left: 34px;
+      }
+      #s1-fralora {
+        font-size: 150px;
+      }
+      #s1-fralora-sub {
+        margin-top: 30px;
+        font-family: "Heebo", sans-serif;
+        font-weight: 300;
+        font-size: 36px;
+        letter-spacing: 14px;
+        color: rgba(244, 226, 184, 0.75);
+        padding-left: 14px;
+      }
+      #shine {
+        position: absolute;
+        top: -300px;
+        left: -500px;
+        width: 260px;
+        height: 2600px;
+        background: linear-gradient(90deg, rgba(255, 240, 200, 0), rgba(255, 240, 200, 0.22), rgba(255, 240, 200, 0));
+        rotate: 20deg;
+      }
+
+      /* ---------- Scene 2: first time ---------- */
+      #s2-wrap {
+        top: 560px;
+        gap: 34px;
+      }
+      #s2-kicker {
+        font-weight: 500;
+        font-size: 46px;
+        letter-spacing: 8px;
+        color: #deb86b;
+      }
+      #s2-title {
+        font-family: "Frank Ruhl", serif;
+        font-weight: 900;
+        font-size: 190px;
+        line-height: 1.05;
+        background: linear-gradient(180deg, #fff3d4 0%, #e7c27a 55%, #a87d36 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      #s2-line {
+        width: 520px;
+        height: 4px;
+        background: linear-gradient(90deg, rgba(222, 184, 107, 0), #deb86b, rgba(222, 184, 107, 0));
+      }
+      #s2-body {
+        font-weight: 300;
+        font-size: 66px;
+        line-height: 1.35;
+        color: #f6efe2;
+      }
+      #s2-body b {
+        font-weight: 800;
+        color: #deb86b;
+      }
+
+      /* ---------- Scene 3: bottles ---------- */
+      .tint {
+        position: absolute;
+        inset: 0;
+      }
+      .ghost {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 250px;
+        display: flex;
+        justify-content: center;
+        font-family: "Italiana", serif;
+        font-size: 300px;
+        line-height: 1;
+        white-space: nowrap;
+        color: rgba(255, 255, 255, 0.05);
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.22);
+      }
+      .bottle-stage {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 470px;
+        height: 980px;
+        display: flex;
+        justify-content: center;
+      }
+      .bottle {
+        position: relative;
+        width: 340px;
+        height: 994px;
+      }
+      .bottle img.main {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 340px;
+        height: 994px;
+      }
+      .reflect {
+        position: absolute;
+        left: 0;
+        top: 1000px;
+        width: 340px;
+        height: 994px;
+        transform: scaleY(-1);
+        opacity: 0.22;
+        -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 100%);
+        mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 100%);
+      }
+      .bottle-glow {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 900px;
+        height: 900px;
+        margin-left: -450px;
+        margin-top: -520px;
+        border-radius: 50%;
+      }
+      .info {
+        top: 1490px;
+        gap: 14px;
+      }
+      .p-name {
+        font-family: "Frank Ruhl", serif;
+        font-weight: 900;
+        font-size: 104px;
+        line-height: 1;
+        color: #fff;
+        letter-spacing: 2px;
+      }
+      .p-tag {
+        font-weight: 500;
+        font-size: 52px;
+        line-height: 1.2;
+        color: #fff;
+      }
+      .p-meta {
+        font-weight: 300;
+        font-size: 32px;
+        letter-spacing: 8px;
+        color: rgba(255, 255, 255, 0.78);
+      }
+      .counter {
+        position: absolute;
+        right: 90px;
+        top: 120px;
+        font-family: "Italiana", serif;
+        font-size: 56px;
+        color: rgba(255, 255, 255, 0.85);
+        letter-spacing: 6px;
+      }
+
+      /* ---------- Scene 4: lineup ---------- */
+      #s4-title-wrap {
+        top: 210px;
+        gap: 18px;
+      }
+      #s4-title {
+        font-family: "Frank Ruhl", serif;
+        font-weight: 900;
+        font-size: 120px;
+        line-height: 1.1;
+        color: #f6efe2;
+      }
+      #s4-sub {
+        font-weight: 300;
+        font-size: 54px;
+        color: #deb86b;
+      }
+      #lineup {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 720px;
+        height: 760px;
+      }
+      .lb {
+        position: absolute;
+        top: 0;
+        width: 250px;
+        height: 731px;
+      }
+      .lb img {
+        width: 250px;
+        height: 731px;
+      }
+      #lb1 { left: 70px; top: 60px; }
+      #lb2 { left: 300px; top: 0px; }
+      #lb3 { left: 530px; top: 0px; }
+      #lb4 { left: 760px; top: 60px; }
+
+      /* ---------- Scene 5: CTA ---------- */
+      #s5-top {
+        top: 300px;
+        gap: 44px;
+      }
+      #s5-logo {
+        display: block;
+        width: 250px;
+        height: auto;
+      }
+      #s5-x {
+        font-family: "Italiana", serif;
+        font-size: 64px;
+        line-height: 1;
+        color: #deb86b;
+      }
+      #s5-fralora {
+        font-size: 112px;
+        letter-spacing: 26px;
+        padding-left: 26px;
+      }
+      #s5-bottom {
+        top: 1280px;
+        gap: 40px;
+      }
+      #s5-head {
+        font-family: "Frank Ruhl", serif;
+        font-weight: 900;
+        font-size: 96px;
+        line-height: 1.1;
+        color: #fff;
+      }
+      #s5-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 34px 90px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #8a6324, #e9c57e, #8a6324);
+        box-shadow: 0 20px 60px rgba(222, 184, 107, 0.35);
+      }
+      #s5-btn-text {
+        font-weight: 800;
+        font-size: 60px;
+        line-height: 1;
+        color: #1a1208;
+      }
+      #s5-note {
+        font-weight: 300;
+        font-size: 40px;
+        letter-spacing: 3px;
+        color: rgba(246, 239, 226, 0.85);
+      }
+      #flash {
+        position: absolute;
+        inset: 0;
+        background: #fff4dc;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="21" data-width="1080" data-height="1920">
+      <!-- Audio -->
+      <audio id="bed" src="audio/bed.m4a" data-start="0" data-duration="21" data-track-index="0" data-volume="0.75"></audio>
+      <audio id="sfx-impact-1" src="audio/impact.mp3" data-start="1.25" data-duration="2.6" data-track-index="1" data-volume="0.7"></audio>
+      <audio id="sfx-whoosh-1" src="audio/whoosh.mp3" data-start="3.3" data-duration="1.6" data-track-index="2" data-volume="0.45"></audio>
+      <audio id="sfx-whoosh-2" src="audio/whoosh.mp3" data-start="6.3" data-duration="1.6" data-track-index="2" data-volume="0.45"></audio>
+      <audio id="sfx-whoosh-3" src="audio/whoosh.mp3" data-start="14.7" data-duration="1.6" data-track-index="2" data-volume="0.45"></audio>
+      <audio id="sfx-impact-2" src="audio/impact.mp3" data-start="17.9" data-duration="2.6" data-track-index="1" data-volume="0.6"></audio>
+
+      <!-- Persistent backdrop -->
+      <div id="bg" class="clip full" data-start="0" data-duration="21" data-track-index="3">
+        <div id="bg-base" class="full"></div>
+        <div id="bg-glow"></div>
+        <div id="ring-1" class="ring"></div>
+        <div id="ring-2" class="ring"></div>
+        <div id="sparks" class="full"></div>
+      </div>
+
+      <!-- Scene 1: BUJAIRAMI X FRALORA -->
+      <div id="s1" class="clip full" data-start="0" data-duration="3.6" data-track-index="4">
+        <div id="s1-logo-wrap" class="center-col">
+          <img id="s1-logo" src="img/bujairami-gold.png" alt="Bujairami" />
+        </div>
+        <div id="s1-x-wrap" class="center-col">
+          <div id="s1-x">
+            <div id="xbar-1" class="xbar"></div>
+            <div id="xbar-2" class="xbar"></div>
+          </div>
+        </div>
+        <div id="s1-fralora-wrap" class="center-col">
+          <div id="s1-fralora" class="wordmark">FRALORA</div>
+          <div id="s1-fralora-sub">EXCLUSIVE PARTNER</div>
+        </div>
+        <div id="shine" data-layout-allow-overflow></div>
+      </div>
+
+      <!-- Scene 2: First time in the country -->
+      <div id="s2" class="clip full" data-start="3.6" data-duration="3.0" data-track-index="4">
+        <div id="s2-wrap" class="center-col">
+          <div id="s2-kicker" class="he">חדש באתר</div>
+          <div id="s2-title" class="he">לראשונה בארץ</div>
+          <div id="s2-line"></div>
+          <div id="s2-body" class="he"><div>בשמי היוקרה של <b>BUJAIRAMI</b></div><div>מסידני — עכשיו ב־<b>FRALORA</b></div></div>
+        </div>
+      </div>
+
+      <!-- Scene 3a: Executor -->
+      <div id="s3a" class="clip full" data-start="6.6" data-duration="2.1" data-track-index="4">
+        <div class="tint" style="background: radial-gradient(ellipse 85% 60% at 50% 45%, #1c3a2e 0%, #0b1712 55%, #040806 100%)"></div>
+        <div class="ghost" id="s3a-ghost">EXECUTOR</div>
+        <div class="bottle-stage">
+          <div class="bottle-glow" style="background: radial-gradient(circle, rgba(222, 184, 107, 0.35), rgba(222, 184, 107, 0) 65%)"></div>
+          <div class="bottle" id="s3a-bottle">
+            <img class="main" src="img/executor.png" alt="Executor" />
+            <img class="reflect" src="img/executor.png" alt="" />
+          </div>
+        </div>
+        <div class="center-col info" id="s3a-info">
+          <div class="p-name">Executor</div>
+          <div class="p-tag he">עוצמה ונוכחות בכל צעד</div>
+          <div class="p-meta">EXTRAIT DE PARFUM · 100ML</div>
+        </div>
+        <div class="counter">01 / 04</div>
+      </div>
+
+      <!-- Scene 3b: Psycho -->
+      <div id="s3b" class="clip full" data-start="8.7" data-duration="2.1" data-track-index="4">
+        <div class="tint" style="background: radial-gradient(ellipse 85% 60% at 50% 45%, #44454c 0%, #1b1b1f 55%, #08080a 100%)"></div>
+        <div class="ghost" id="s3b-ghost">PSYCHO</div>
+        <div class="bottle-stage">
+          <div class="bottle-glow" style="background: radial-gradient(circle, rgba(220, 220, 235, 0.3), rgba(220, 220, 235, 0) 65%)"></div>
+          <div class="bottle" id="s3b-bottle">
+            <img class="main" src="img/psycho.png" alt="Psycho" />
+            <img class="reflect" src="img/psycho.png" alt="" />
+          </div>
+        </div>
+        <div class="center-col info" id="s3b-info">
+          <div class="p-name">Psycho</div>
+          <div class="p-tag he">נועז, בלתי צפוי, בלתי נשכח</div>
+          <div class="p-meta">EXTRAIT DE PARFUM · 100ML</div>
+        </div>
+        <div class="counter">02 / 04</div>
+      </div>
+
+      <!-- Scene 3c: Too Damn Good -->
+      <div id="s3c" class="clip full" data-start="10.8" data-duration="2.1" data-track-index="4">
+        <div class="tint" style="background: radial-gradient(ellipse 85% 60% at 50% 45%, #b5561a 0%, #5a240a 55%, #1d0b03 100%)"></div>
+        <div class="ghost" id="s3c-ghost">TOO DAMN GOOD</div>
+        <div class="bottle-stage">
+          <div class="bottle-glow" style="background: radial-gradient(circle, rgba(255, 200, 140, 0.35), rgba(255, 200, 140, 0) 65%)"></div>
+          <div class="bottle" id="s3c-bottle">
+            <img class="main" src="img/toodamngood.png" alt="Too Damn Good" />
+            <img class="reflect" src="img/toodamngood.png" alt="" />
+          </div>
+        </div>
+        <div class="center-col info" id="s3c-info">
+          <div class="p-name">Too Damn Good</div>
+          <div class="p-tag he">פשוט טוב מדי</div>
+          <div class="p-meta">EXTRAIT DE PARFUM · 100ML</div>
+        </div>
+        <div class="counter">03 / 04</div>
+      </div>
+
+      <!-- Scene 3d: Hectic -->
+      <div id="s3d" class="clip full" data-start="12.9" data-duration="2.1" data-track-index="4">
+        <div class="tint" style="background: radial-gradient(ellipse 85% 60% at 50% 45%, #1f6584 0%, #0c2a38 55%, #040d12 100%)"></div>
+        <div class="ghost" id="s3d-ghost">HECTIC</div>
+        <div class="bottle-stage">
+          <div class="bottle-glow" style="background: radial-gradient(circle, rgba(150, 220, 255, 0.3), rgba(150, 220, 255, 0) 65%)"></div>
+          <div class="bottle" id="s3d-bottle">
+            <img class="main" src="img/hectic.png" alt="Hectic" />
+            <img class="reflect" src="img/hectic.png" alt="" />
+          </div>
+        </div>
+        <div class="center-col info" id="s3d-info">
+          <div class="p-name">Hectic</div>
+          <div class="p-tag he">אנרגיה רעננה שלא נגמרת</div>
+          <div class="p-meta">EXTRAIT DE PARFUM · 100ML</div>
+        </div>
+        <div class="counter">04 / 04</div>
+      </div>
+
+      <!-- Scene 4: lineup -->
+      <div id="s4" class="clip full" data-start="15.0" data-duration="3.0" data-track-index="4">
+        <div id="s4-title-wrap" class="center-col">
+          <div id="s4-title" class="he">הקולקציה כבר כאן</div>
+          <div id="s4-sub" class="he">בלעדית ב־FRALORA</div>
+        </div>
+        <div id="lineup">
+          <div class="lb" id="lb1"><img src="img/executor.png" alt="Executor" /></div>
+          <div class="lb" id="lb4"><img src="img/hectic.png" alt="Hectic" /></div>
+          <div class="lb" id="lb2"><img src="img/psycho.png" alt="Psycho" /></div>
+          <div class="lb" id="lb3"><img src="img/toodamngood.png" alt="Too Damn Good" /></div>
+        </div>
+      </div>
+
+      <!-- Scene 5: CTA -->
+      <div id="s5" class="clip full" data-start="18.0" data-duration="3.0" data-track-index="4">
+        <div id="s5-top" class="center-col">
+          <img id="s5-logo" src="img/bujairami-gold.png" alt="Bujairami" />
+          <div id="s5-x">X</div>
+          <div id="s5-fralora" class="wordmark">FRALORA</div>
+        </div>
+        <div id="s5-bottom" class="center-col">
+          <div id="s5-head" class="he">הזמינו עכשיו</div>
+          <div id="s5-btn"><div id="s5-btn-text" class="he">לרכישה באתר Fralora</div></div>
+          <div id="s5-note" class="he">BUJAIRAMI SYDNEY · בלעדי ב־FRALORA</div>
+        </div>
+      </div>
+
+      <!-- Gold frame + flash -->
+      <div id="overlay" class="clip full" data-start="0" data-duration="21" data-track-index="5">
+        <div id="frame"></div>
+        <div id="c-tl" class="corner"></div>
+        <div id="c-tr" class="corner"></div>
+        <div id="c-bl" class="corner"></div>
+        <div id="c-br" class="corner"></div>
+        <div id="flash"></div>
+      </div>
+    </div>
+
+    <script>
+      // Deterministic gold sparks
+      (function () {
+        let seed = 7;
+        const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+        const host = document.getElementById("sparks");
+        for (let i = 0; i < 26; i++) {
+          const s = document.createElement("div");
+          s.className = "spark";
+          s.id = "spark-" + i;
+          const size = 10 + Math.round(rnd() * 26);
+          s.style.width = size + "px";
+          s.style.height = size + "px";
+          s.style.left = Math.round(60 + rnd() * 940) + "px";
+          s.style.top = Math.round(200 + rnd() * 1600) + "px";
+          s.dataset.rise = String(Math.round(300 + rnd() * 700));
+          s.dataset.op = (0.35 + rnd() * 0.6).toFixed(2);
+          host.appendChild(s);
+        }
+      })();
+
+      const tl = gsap.timeline({ paused: true });
+      const D = 21;
+
+      // ---- Backdrop life
+      document.querySelectorAll(".spark").forEach((s, i) => {
+        tl.fromTo(s, { y: 0, opacity: 0 }, { y: -Number(s.dataset.rise), opacity: Number(s.dataset.op), duration: D, ease: "none" }, 0);
+      });
+      tl.fromTo("#bg-glow", { scale: 0.85, opacity: 0.6 }, { scale: 1.1, opacity: 1, duration: D / 2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+      tl.fromTo("#ring-1", { rotation: 0, scale: 0.9 }, { rotation: 40, scale: 1.08, duration: D, ease: "none" }, 0);
+      tl.fromTo("#ring-2", { rotation: 0, scale: 1.1 }, { rotation: -50, scale: 0.92, duration: D, ease: "none" }, 0);
+      tl.fromTo("#frame", { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power2.out" }, 0.3);
+      tl.fromTo(".corner", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(2)", stagger: 0.08 }, 0.4);
+
+      // ---- Flashes on scene changes
+      [1.25, 3.6, 6.6, 8.7, 10.8, 12.9, 15.0, 18.0].forEach((t, i) => {
+        tl.fromTo("#flash", { opacity: i === 0 || i === 7 ? 0.7 : 0.35 }, { opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, t);
+      });
+
+      // ---- Scene 1
+      tl.fromTo("#s1-logo", { opacity: 0, scale: 0.6, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 1.0, ease: "expo.out" }, 0.15);
+      tl.fromTo("#xbar-1", { rotation: 45, scaleX: 0 }, { rotation: 45, scaleX: 1, duration: 0.4, ease: "power3.out" }, 1.0);
+      tl.fromTo("#xbar-2", { rotation: -45, scaleX: 0 }, { rotation: -45, scaleX: 1, duration: 0.4, ease: "power3.out" }, 1.15);
+      tl.fromTo("#s1-x", { rotation: -90, scale: 0.6 }, { rotation: 0, scale: 1, duration: 0.7, ease: "back.out(1.8)" }, 1.0);
+      tl.fromTo("#s1-fralora", { opacity: 0, scaleX: 1.35, y: 30 }, { opacity: 1, scaleX: 1, y: 0, duration: 1.0, ease: "expo.out" }, 1.25);
+      tl.fromTo("#s1-fralora-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 1.8);
+      tl.fromTo("#shine", { x: 0 }, { x: 2000, duration: 1.3, ease: "power2.inOut" }, 2.0);
+      tl.to(["#s1-logo-wrap", "#s1-x-wrap", "#s1-fralora-wrap"], { scale: 1.06, duration: 1.4, ease: "none" }, 2.0);
+      tl.to(["#s1-logo-wrap", "#s1-x-wrap", "#s1-fralora-wrap"], { opacity: 0, y: -50, duration: 0.3, ease: "power2.in", stagger: 0.05 }, 3.25);
+
+      // ---- Scene 2
+      tl.fromTo("#s2-kicker", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 3.7);
+      tl.fromTo("#s2-title", { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 3.8);
+      tl.fromTo("#s2-line", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, 4.2);
+      tl.fromTo("#s2-body", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 4.45);
+      tl.to("#s2-wrap", { y: -20, duration: 2.0, ease: "none" }, 4.3);
+      tl.to("#s2-wrap", { opacity: 0, scale: 0.94, duration: 0.3, ease: "power2.in" }, 6.3);
+
+      // ---- Scene 3 bottles
+      const bottles = [
+        { id: "s3a", t: 6.6, dir: 1 },
+        { id: "s3b", t: 8.7, dir: -1 },
+        { id: "s3c", t: 10.8, dir: 1 },
+        { id: "s3d", t: 12.9, dir: -1 },
+      ];
+      bottles.forEach(({ id, t, dir }) => {
+        tl.fromTo(`#${id} .tint`, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, t);
+        tl.fromTo(`#${id}-ghost`, { x: 260 * dir, opacity: 0 }, { x: -160 * dir, opacity: 1, duration: 2.1, ease: "power1.out" }, t);
+        tl.fromTo(`#${id} .bottle-glow`, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: "power2.out" }, t + 0.1);
+        tl.fromTo(`#${id}-bottle`, { x: 700 * dir, rotation: 14 * dir, scale: 0.85 }, { x: 0, rotation: 0, scale: 1, duration: 0.7, ease: "expo.out" }, t);
+        tl.to(`#${id}-bottle`, { scale: 1.05, y: -16, duration: 1.2, ease: "sine.inOut" }, t + 0.7);
+        tl.fromTo(`#${id}-info .p-name`, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, t + 0.3);
+        tl.fromTo(`#${id}-info .p-tag`, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, t + 0.42);
+        tl.fromTo(`#${id}-info .p-meta`, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, t + 0.55);
+        tl.to(`#${id}-bottle`, { x: -500 * dir, rotation: -10 * dir, opacity: 0, duration: 0.3, ease: "power3.in" }, t + 1.8);
+        tl.to(`#${id}-info`, { opacity: 0, y: 30, duration: 0.25, ease: "power2.in" }, t + 1.8);
+      });
+
+      // ---- Scene 4 lineup
+      tl.fromTo("#s4-title", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 15.1);
+      tl.fromTo("#s4-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 15.35);
+      tl.fromTo("#lb2", { y: 900, rotation: 0 }, { y: 0, rotation: -3, duration: 0.7, ease: "expo.out" }, 15.15);
+      tl.fromTo("#lb3", { y: 900, rotation: 0 }, { y: 0, rotation: 3, duration: 0.7, ease: "expo.out" }, 15.25);
+      tl.fromTo("#lb1", { y: 900, rotation: 0 }, { y: 0, rotation: -9, duration: 0.7, ease: "expo.out" }, 15.35);
+      tl.fromTo("#lb4", { y: 900, rotation: 0 }, { y: 0, rotation: 9, duration: 0.7, ease: "expo.out" }, 15.45);
+      tl.to("#lineup", { scale: 1.05, duration: 2.2, ease: "none" }, 15.8);
+      tl.to(["#s4-title-wrap", "#lineup"], { opacity: 0, duration: 0.3, ease: "power2.in" }, 17.7);
+
+      // ---- Scene 5 CTA
+      tl.fromTo("#s5-logo", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 18.05);
+      tl.fromTo("#s5-x", { opacity: 0, rotation: -180, scale: 0.4 }, { opacity: 1, rotation: 0, scale: 1, duration: 0.6, ease: "back.out(2)" }, 18.25);
+      tl.fromTo("#s5-fralora", { opacity: 0, scaleX: 1.3 }, { opacity: 1, scaleX: 1, duration: 0.8, ease: "expo.out" }, 18.4);
+      tl.fromTo("#s5-head", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 18.7);
+      tl.fromTo("#s5-btn", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(2)" }, 18.9);
+      tl.fromTo("#s5-btn", { scale: 1 }, { scale: 1.06, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, 19.5);
+      tl.fromTo("#s5-note", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 19.2);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
